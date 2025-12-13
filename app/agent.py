@@ -60,14 +60,33 @@ def get_current_time(query: str) -> str:
 
     tz = ZoneInfo(tz_identifier)
     now = datetime.datetime.now(tz)
-    return f"The current time for query {query} is {now.strftime('%Y-%m-%d %H:%M:%S %Z%z')}"
 
+# --- Switch to Parallel Agent with Orchestrator ---
+from .agent_parallel import agent_system
+from google.adk.tools import AgentTool
+from app.ollama_fix import OllamaLiteLlm as LiteLlm
 
-root_agent = Agent(
-    name="root_agent",
+# Wrap the Parallel System as a Tool
+research_team_tool = AgentTool(agent_system)
+
+# Define the Root Orchestrator
+orchestrator_agent = Agent(
+    name="root_orchestrator",
     model=LiteLlm(model="ollama_chat/gpt-oss:20b-cloud"),
-    instruction="You are a helpful AI assistant designed to provide accurate and useful information.",
-    tools=[get_weather, get_current_time, addition],
+    instruction="""
+    You are the Root Orchestrator Agent.
+    
+    1. **Interaction**: If the user says hello or greets you, reply politely, explain that you are an orchestrator managing a team of 7 expert AI models, and ask what they need help with. Do NOT call any tools for greetings.
+    
+    2. **Delegation**: If the user asks a question or request information, you MUST delegate it to your `parallel_verifier_system` tool (the Research Team).
+    
+    3. **Presentation**: After the Research Team returns with an answer, you must present it to the user clearly. "The team has found..."
+    """,
+    tools=[research_team_tool]
 )
 
+root_agent = orchestrator_agent
+
 app = App(root_agent=root_agent, name="app")
+
+
