@@ -4,6 +4,43 @@ from google.adk.agents import Agent, ParallelAgent, SequentialAgent
 from app.ollama_fix import OllamaLiteLlm as LiteLlm # Alias it to minimize code changes
 from google.genai import types as genai_types
 from duckduckgo_search import DDGS
+import os
+from app.ollama_cloud_model import OllamaCloudLlm
+
+
+CLOUD_OLLAMA_BASE = "https://ollama.com"
+
+MODEL_ROUTER = {
+    "gpt-oss:20b-cloud": {
+        "model": "ollama/gpt-oss:20b-cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+    "gpt-oss:120b-cloud": {   # ← THIS WAS MISSING
+        "model": "ollama/gpt-oss:120b-cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+    "deepseek-v3.1:671b-cloud": {
+        "model": "ollama/deepseek-v3.1:671b-cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+    "qwen3-coder:480b-cloud": {
+        "model": "ollama/qwen3-coder:480b-cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+    "qwen3-vl:235b-cloud": {
+        "model": "ollama/qwen3-vl:235b-cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+    "minimax-m2:cloud": {
+        "model": "ollama/minimax-m2:cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+    "glm-4.6:cloud": {
+        "model": "ollama/glm-4.6:cloud",
+        "api_base": CLOUD_OLLAMA_BASE,
+    },
+}
+
 
 # --- Tools ---
 
@@ -23,9 +60,14 @@ def duckduckgo_search_tool(query: str) -> str:
 
 # Helper to create workers easily
 def create_worker(name, model_id, focus):
+    if model_id.endswith("-cloud") or model_id.endswith(":cloud"):
+        model = OllamaCloudLlm(model_id)
+    else:
+        model = LiteLlm(model=f"ollama_chat/{model_id}")
+
     return Agent(
         name=name,
-        model=LiteLlm(model=f"ollama_chat/{model_id}"),
+        model=model,
         instruction=f"""
         You are an expert AI model specialized in your architecture.
         Your model ID is {model_id}.
@@ -33,6 +75,8 @@ def create_worker(name, model_id, focus):
         """,
         output_key=f"{name}_response",
     )
+
+
 
 # 1. gpt-oss:20b-cloud
 worker_gpt_oss_20b = create_worker(
@@ -79,7 +123,7 @@ worker_glm = create_worker(
 # 7. gpt-oss:120b
 worker_gpt_oss_120b = create_worker(
     "worker_gpt_oss_120b",
-    "gpt-oss:120b",
+    "gpt-oss:120b-cloud",
     "Large-scale knowledge synthesis"
 )
 
