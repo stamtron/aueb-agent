@@ -20,6 +20,10 @@ import google.auth
 from google.adk.agents import Agent
 from google.adk.apps.app import App
 from google.adk.models.lite_llm import LiteLlm
+import warnings
+
+# Suppress Pydantic UserWarnings (serialization issues from LiteLLI integration/Ollama)
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 
 _, project_id = google.auth.default()
 os.environ.setdefault("GOOGLE_CLOUD_PROJECT", project_id)

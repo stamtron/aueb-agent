@@ -1,5 +1,7 @@
-
 import asyncio
+import warnings
+# Suppress Pydantic UserWarnings (serialization issues from LiteLLI integration)
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 from app.agent import root_agent  # Import the new Orchestrator
 from google.adk import Runner
 from google.genai import types as genai_types

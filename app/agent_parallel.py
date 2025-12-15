@@ -3,7 +3,7 @@ from google.adk.agents import Agent, ParallelAgent, SequentialAgent
 # from google.adk.models.lite_llm import LiteLlm # Replaced with custom fix
 from app.ollama_fix import OllamaLiteLlm as LiteLlm # Alias it to minimize code changes
 from google.genai import types as genai_types
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 import os
 from app.ollama_cloud_model import OllamaCloudLlm
 
