@@ -8,6 +8,8 @@ __pycache__/
 /out-tsc
 /bazel-out
 .cloudbuild/
+blog_post.md
+linkedin_post.md
 
 # C extensions
 *.so
