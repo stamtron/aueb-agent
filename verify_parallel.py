@@ -2,7 +2,7 @@ import asyncio
 import warnings
 # Suppress Pydantic UserWarnings (serialization issues from LiteLLI integration)
 warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
-from app.agent import root_agent  # Import the new Orchestrator
+from app.agent import app  # Import the App instance
 from google.adk import Runner
 from google.genai import types as genai_types
 from google.adk.sessions import InMemorySessionService, Session, State
@@ -10,7 +10,7 @@ from google.adk.sessions import InMemorySessionService, Session, State
 async def main():
     print("Initializing Runner with Root Orchestrator...")
     session_service = InMemorySessionService()
-    runner = Runner(agent=root_agent, session_service=session_service, app_name="app")
+    runner = Runner(app=app, session_service=session_service)
 
     # Create session
     await session_service.create_session(app_name="app", user_id="test_user", session_id="test_session", state={})

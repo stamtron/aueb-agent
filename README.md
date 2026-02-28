@@ -2,7 +2,9 @@
 
 An advanced, agentic AI system implementing the **Parallel Research** pattern using Google's Agent Development Kit (ADK) and local Ollama models.
 
-## Architecture
+## Executive Summary
+
+The AUEB Agent is a sophisticated multi-level AI system designed to handle complex research queries by leveraging a "Panel of Experts." It uses a root orchestrator to manage conversations and delegates deep inquiries to 7 distinct, specialized worker agents running concurrently via local Ollama models. A final verifier agent then synthesizes these 7 perspectives—fact-checking against the web if necessary—into a single, comprehensive, and well-reasoned response.## Architecture
 
 This project implements a multi-level agent architecture designed for deep research and verification:
 
