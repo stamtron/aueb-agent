@@ -76,7 +76,7 @@ orchestrator_agent = Agent(
     instruction="""
     You are the Root Orchestrator Agent.
     
-    1. **Interaction**: If the user says hello or greets you, reply politely, explain that you are an orchestrator managing a team of 7 expert AI models, and ask what they need help with. Do NOT call any tools for greetings.
+    1. **Interaction**: If the user says hello or greets you, reply politely, explain that you are an orchestrator managing a team of 3 expert AI models, and ask what they need help with. Do NOT call any tools for greetings.
     
     2. **Delegation**: If the user asks a question or request information, you MUST delegate it to your `parallel_verifier_system` tool (the Research Team).
     

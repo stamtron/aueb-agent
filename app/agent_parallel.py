@@ -78,51 +78,23 @@ def create_worker(name, model_id, focus):
 
 
 
-# 1. llama3.2:latest
-worker_gpt_oss_20b = create_worker(
-    "worker_gpt_oss_20b",
+# 1. llama3.2:latest — General Purpose
+worker_llama = create_worker(
+    "worker_llama",
     "llama3.2:latest",
-    "General Purpose, Open Source alignment"
+    "General purpose reasoning and open-source alignment"
 )
 
-# 2. deepseek-coder:1.3b
+# 2. deepseek-coder:1.3b — Coding & Reasoning
 worker_deepseek = create_worker(
     "worker_deepseek",
     "deepseek-coder:1.3b",
     "Deep technical reasoning and coding"
 )
 
-# 3. qwen2.5-coder:7b
-worker_qwen_coder = create_worker(
-    "worker_qwen_coder",
-    "qwen2.5-coder:7b",
-    "Software Engineering and Algorithms"
-)
-
-# 4. llava:latest
-worker_qwen_vl = create_worker(
-    "worker_qwen_vl",
-    "llava:latest",
-    "Visual understanding and multimodal context"
-)
-
-# 5. gemma2:2b
-worker_minimax = create_worker(
-    "worker_minimax",
-    "gemma2:2b",
-    "Creative writing and storytelling"
-)
-
-# 6. qwen2.5:3b
-worker_glm = create_worker(
-    "worker_glm",
-    "qwen2.5:3b",
-    "Bilingual (English/Chinese) and academic knowledge"
-)
-
-# 7. mistral:latest
-worker_gpt_oss_120b = create_worker(
-    "worker_gpt_oss_120b",
+# 3. mistral:latest — Synthesis & Large-scale Knowledge
+worker_mistral = create_worker(
+    "worker_mistral",
     "mistral:latest",
     "Large-scale knowledge synthesis"
 )
@@ -132,36 +104,27 @@ worker_gpt_oss_120b = create_worker(
 parallel_workers = ParallelAgent(
     name="parallel_workers",
     sub_agents=[
-        worker_gpt_oss_20b,
+        worker_llama,
         worker_deepseek,
-        worker_qwen_coder,
-        worker_qwen_vl,
-        worker_minimax,
-        worker_glm,
-        worker_gpt_oss_120b
+        worker_mistral,
     ],
-    description="Consults 7 different open source models in parallel."
+    description="Consults 3 different open source models in parallel."
 )
 
 # --- Verifier/Summarizer Agent ---
 
-# Uses gpt-oss:20b-cloud as requested for the summary/verification
 verifier_instruction = """
 You are a Lead Researcher and Verifier.
-Your task is to synthesize the answers provided by a panel of 7 expert AI models.
+Your task is to synthesize the answers provided by a panel of 3 expert AI models.
 
 The experts have provided their responses in the session state.
 Synthesize their perspectives into a single, comprehensive, and verified answer.
 IF there are conflicting facts, use the `duckduckgo_search_tool` tool to verify.
 
 Check the following keys in state for their inputs:
-- worker_gpt_oss_20b_response
+- worker_llama_response
 - worker_deepseek_response
-- worker_qwen_coder_response
-- worker_qwen_vl_response
-- worker_minimax_response
-- worker_glm_response
-- worker_gpt_oss_120b_response
+- worker_mistral_response
 
 Provide a final, verified response to the user.
 """
@@ -179,5 +142,6 @@ verifier_agent = Agent(
 agent_system = SequentialAgent(
     name="parallel_verifier_system",
     sub_agents=[parallel_workers, verifier_agent],
-    description="A system that consults 7 distinct OSS models in parallel and synthesizes their answers."
+    description="A system that consults 3 distinct OSS models in parallel and synthesizes their answers."
 )
+

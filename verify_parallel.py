@@ -67,7 +67,7 @@ async def main():
     session = await runner.session_service.get_session(session_id="test_session", user_id="test_user", app_name=app.name)
     state = session.state
     workers = [
-        "worker_gpt_oss_20b", "worker_deepseek"
+        "worker_llama", "worker_deepseek", "worker_mistral"
     ]
     for w in workers:
         resp = state.get(f"{w}_response", "N/A")
