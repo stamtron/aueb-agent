@@ -78,52 +78,52 @@ def create_worker(name, model_id, focus):
 
 
 
-# 1. gpt-oss:20b-cloud
+# 1. llama3.2:latest
 worker_gpt_oss_20b = create_worker(
     "worker_gpt_oss_20b",
-    "gpt-oss:20b-cloud",
+    "llama3.2:latest",
     "General Purpose, Open Source alignment"
 )
 
-# 2. deepseek-v3.1:671b-cloud
+# 2. deepseek-coder:1.3b
 worker_deepseek = create_worker(
     "worker_deepseek",
-    "deepseek-v3.1:671b-cloud",
+    "deepseek-coder:1.3b",
     "Deep technical reasoning and coding"
 )
 
-# 3. qwen3-coder:480b-cloud
+# 3. qwen2.5-coder:7b
 worker_qwen_coder = create_worker(
     "worker_qwen_coder",
-    "qwen3-coder:480b-cloud",
+    "qwen2.5-coder:7b",
     "Software Engineering and Algorithms"
 )
 
-# 4. qwen3-vl:235b-cloud
+# 4. llava:latest
 worker_qwen_vl = create_worker(
     "worker_qwen_vl",
-    "qwen3-vl:235b-cloud",
+    "llava:latest",
     "Visual understanding and multimodal context"
 )
 
-# 5. minimax-m2:cloud
+# 5. gemma2:2b
 worker_minimax = create_worker(
     "worker_minimax",
-    "minimax-m2:cloud",
+    "gemma2:2b",
     "Creative writing and storytelling"
 )
 
-# 6. glm-4.6:cloud
+# 6. qwen2.5:3b
 worker_glm = create_worker(
     "worker_glm",
-    "glm-4.6:cloud",
+    "qwen2.5:3b",
     "Bilingual (English/Chinese) and academic knowledge"
 )
 
-# 7. gpt-oss:120b
+# 7. mistral:latest
 worker_gpt_oss_120b = create_worker(
     "worker_gpt_oss_120b",
-    "gpt-oss:120b-cloud",
+    "mistral:latest",
     "Large-scale knowledge synthesis"
 )
 
@@ -168,7 +168,7 @@ Provide a final, verified response to the user.
 
 verifier_agent = Agent(
     name="verifier_agent",
-    model=LiteLlm(model="ollama_chat/gpt-oss:20b-cloud"),
+    model=LiteLlm(model="ollama_chat/llama3.2:latest"),
     instruction=verifier_instruction,
     tools=[duckduckgo_search_tool],
     output_key="final_verified_response"

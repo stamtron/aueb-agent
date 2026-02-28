@@ -1,34 +1,21 @@
 #!/bin/bash
 
-# Define the base model to use for aliasing (using one that exists)
-BASE_MODEL="gpt-oss:20b-cloud"
+echo "Pulling diverse open-source models for the AUEB Agent..."
 
-# List of required models
+# List of required diverse models to pull from Ollama
 MODELS=(
-    "deepseek-v3.1:671b-cloud"
-    "qwen3-coder:480b-cloud"
-    "qwen3-vl:235b-cloud"
-    "minimax-m2:cloud"
-    "glm-4.6:cloud"
-    "gpt-oss:120b"
+    "llama3.2:latest"
+    "deepseek-coder:1.3b"
+    "qwen2.5-coder:7b"
+    "llava:latest"
+    "gemma2:2b"
+    "qwen2.5:3b"
+    "mistral:latest"
 )
 
-echo "Check if base model $BASE_MODEL exists..."
-if ! ollama list | grep -q "$BASE_MODEL"; then
-    echo "Base model $BASE_MODEL not found. Trying llama3.2:latest..."
-    BASE_MODEL="llama3.2:latest"
-    if ! ollama list | grep -q "$BASE_MODEL"; then
-         echo "Error: Neither gpt-oss:20b-cloud nor llama3.2:latest found."
-         echo "Please pull a model first, e.g., 'ollama pull llama3.2'"
-         exit 1
-    fi
-fi
-
-echo "Using $BASE_MODEL as the base for aliases."
-
 for model in "${MODELS[@]}"; do
-    echo "Creating alias: $model -> $BASE_MODEL"
-    ollama cp "$BASE_MODEL" "$model"
+    echo "Pulling $model..."
+    ollama pull "$model"
 done
 
-echo "Done! You can now run verify_parallel.py"
+echo "Done! You can now run verify_parallel.py with a truly diverse panel of experts."

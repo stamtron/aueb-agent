@@ -72,7 +72,7 @@ research_team_tool = AgentTool(agent_system)
 # Define the Root Orchestrator
 orchestrator_agent = Agent(
     name="root_orchestrator",
-    model=LiteLlm(model="ollama_chat/gpt-oss:20b-cloud"),
+    model=LiteLlm(model="ollama_chat/llama3.2:latest"),
     instruction="""
     You are the Root Orchestrator Agent.
     

@@ -13,7 +13,7 @@ async def main():
     runner = Runner(app=app, session_service=session_service)
 
     # Create session
-    await session_service.create_session(app_name="app", user_id="test_user", session_id="test_session", state={})
+    await session_service.create_session(app_name=app.name, user_id="test_user", session_id="test_session", state={})
 
     # helper to run and print
     async def run_turn(text):
@@ -36,7 +36,7 @@ async def main():
             # Check for tool calls or specific debug info if needed
         
         # After run, we can inspect session state if available via service
-        session = await runner.session_service.get_session(session_id="test_session", user_id="test_user", app_name="app")
+        session = await runner.session_service.get_session(session_id="test_session", user_id="test_user", app_name=app.name)
         state = session.state
         
         # Check specific parallel outputs if they exist
@@ -57,7 +57,7 @@ async def main():
 
     # Final State Inspection
     print("\n[Final State Inspection of Workers]")
-    session = await runner.session_service.get_session(session_id="test_session", user_id="test_user", app_name="app")
+    session = await runner.session_service.get_session(session_id="test_session", user_id="test_user", app_name=app.name)
     state = session.state
     workers = [
         "worker_gpt_oss_20b", "worker_deepseek"
