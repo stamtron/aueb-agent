@@ -4,7 +4,9 @@ An advanced, agentic AI system implementing the **Parallel Research** pattern us
 
 ## Executive Summary
 
-The AUEB Agent is a sophisticated multi-level AI system designed to handle complex research queries by leveraging a "Panel of Experts." It uses a root orchestrator to manage conversations and delegates deep inquiries to 7 distinct, specialized worker agents running concurrently via local Ollama models. A final verifier agent then synthesizes these 7 perspectives—fact-checking against the web if necessary—into a single, comprehensive, and well-reasoned response.## Architecture
+The AUEB Agent is a sophisticated multi-level AI system designed to handle complex research queries by leveraging a "Panel of Experts." It uses a root orchestrator to manage conversations and delegates deep inquiries to 7 distinct, specialized worker agents running concurrently via local Ollama models. A final verifier agent then synthesizes these 7 perspectives—fact-checking against the web if necessary—into a single, comprehensive, and well-reasoned response.
+
+**Origins & Inspiration**: This project was developed specifically for students in the **MSc in Data Science** course at the **Athens University of Economics and Business (AUEB)**. Inspired by Andrej Karpathy's "LLM Council" concept, the architecture uses Ollama to run robust open-source models completely locally. This allows students to experiment with advanced multi-agent workflows and parallel generation techniques without the barrier of paying for expensive API keys.## Architecture
 
 This project implements a multi-level agent architecture designed for deep research and verification:
 
