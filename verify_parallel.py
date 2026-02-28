@@ -1,7 +1,14 @@
 import asyncio
 import warnings
-# Suppress Pydantic UserWarnings (serialization issues from LiteLLI integration)
+import logging
+
+# Suppress Pydantic UserWarnings (serialization issues from LiteLLM integration)
 warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
+
+# Suppress the ADK Runner's cosmetic "App name mismatch" warning.
+# This fires because inspect.getmodule() on the base Agent class resolves to
+# google.adk.agents (inferred name: "agents") instead of the local app/ module.
+logging.getLogger("google.adk.runners").setLevel(logging.ERROR)
 from app.agent import app  # Import the App instance
 from google.adk import Runner
 from google.genai import types as genai_types
